@@ -14,16 +14,21 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+# pos/urls.py
 from django.contrib import admin
 from django.urls import path, include
-from pos_app import views
-from api import views
 from django.conf import settings
 from django.conf.urls.static import static
+from api.views import RegisterUserApiView, LoginView
 
 urlpatterns = [
     path('super-admin/', admin.site.urls),
-    path('', include('api.urls', namespace='api')),
+    
+    # URL login & register
+    path('api/register/', RegisterUserApiView.as_view(), name='register'),
+    path('api/login/', LoginView.as_view(), name='login'),
+
+    path('api/', include('api.urls')),
 ]
 
 if settings.DEBUG:
